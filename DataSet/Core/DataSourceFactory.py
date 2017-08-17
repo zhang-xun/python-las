@@ -1,18 +1,24 @@
 #!/usr/bin/python3
 # _*_ coding:utf-8  _*_
 __author__ = 'zhangxun'
-
+from abc import abstractmethod
 
 class IDataSourceFactory:
     def __init__(self):
         self._URI = ""
 
-    def URI(self, uri=None):
-        if uri is None:
-            return self._URI
-        else:
-            self._URI = uri
+    def __del__(self):
+        pass
 
+    @property
+    def URI(self, uri=None):
+        return self._URI
+
+    @URI.setter
+    def URI(self, uri):
+        self._URI = uri
+
+    @abstractmethod       #TODO test
     def CreateDataSource(self):
         """
         virtual TODO

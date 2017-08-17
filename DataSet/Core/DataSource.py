@@ -19,9 +19,11 @@ class IDataSource:
     def isOpend(self):
         return True
 
-    def setUrl(self, url):
-        self._url = url
-
-    def getUrl(self):
+    @property
+    def Url(self):
         return self._url
+
+    @Url.setter
+    def Url(self, url):
+        self._url = url
 

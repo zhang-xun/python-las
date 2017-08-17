@@ -5,6 +5,7 @@ from DataSet.Core.DataSet import IDataSet
 from Utility.Common import GPSTmSpan
 
 class PCDataSet(IDataSet):
+    _Register = None
     def __init__(self):
         super.__init__()
 

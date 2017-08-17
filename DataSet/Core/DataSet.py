@@ -23,26 +23,45 @@ class IDataSet:
     def __del__(self):
         self.Destroy()
 
+    @property
+    def Name(self):
+        """
+        获取数据集的名称
+        """
+        return self._Name
 
-    def Name(self, name=None):
-        if name is None:
-            return self._Name
-        else:
-            self._Name = name
+    @Name.setter
+    def Name(self,name):
+        self._Name = name
 
-    def Alias(self, alias=None):
-        if alias is None:
-            return self._Alias
-        else:
-            self._Alias = alias
+    @property
+    def Alias(self):
+        """
+        获取数据集的别名
+        """
+        return self._Alias
 
+    @Alias.setter
+    def Alias(self, alias):
+        self._Alias = alias
+
+    @property
+    def Dsid(self):
+        """
+        获取数据集的内部id, 0-255,该id是该数据集在内部数组中的索引
+        0:表示还未分配的无效索引，还没有加入到数据集管理器中
+        """
+        return self._DSID
+
+    @Dsid.setter
     def Dsid(self, m_dsid=None):
-        if m_dsid is None:
-            return self._DSID
-        else:
-            self._DSID = dsid
+        self._DSID = m_dsid
 
     def DataSetType(self):
+        """
+        数据集类型，在子类中初始化
+        :return:
+        """
         return self._DSID
 
     def setDataSource(self, pSource):
