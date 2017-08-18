@@ -23,11 +23,11 @@ class DataSetRegister:
         if self._Size >= 255:
             return False
 
-        for i in range(1, 256):
+        for i in range(1, 256): # 检查是否已经注册
             if self._DataSets[i] == ds:
                 return False
         for j in range(1, 256):
-            if self._DataSets[j] == None:
+            if self._DataSets[j] is None:
                 self._DataSets[j] = ds
                 ds.Dsid(j)
                 self._Size += 1
