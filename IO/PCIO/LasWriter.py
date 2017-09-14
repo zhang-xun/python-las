@@ -2,10 +2,9 @@
 # _*_ coding:utf-8  _*_
 __author__ = 'zhangxun'
 
+class LasWriter:
+    def __init__(self):
+        pass
 
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
+    def __del__(self):
+        pass

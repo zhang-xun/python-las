@@ -3,6 +3,8 @@
 __author__ = 'zhangxun'
 
 from enum import Enum
+from abc import ABCMeta, abstractmethod
+
 
 class DataSetType_t(Enum):
     DATASET_TYPE_UNKNOWN = 0
@@ -12,8 +14,17 @@ class DataSetType_t(Enum):
     DATASET_TYPE_DMI = 4
     DATASET_TYPE_MARKER = 5
 
+
 class IDataSet:
     def __init__(self):
+        """
+        _pSource : IDataSource * 数据源
+        _Name : 数据源的名称
+        _Alis : 数据集的别人
+        _DSID : DataSetID_t  数据源运行时的ID
+        _DataSetType : 数据源类型
+        :return:
+        """
         self._pSource = None
         self._Name = ""
         self._Alias = ""
@@ -31,7 +42,7 @@ class IDataSet:
         return self._Name
 
     @Name.setter
-    def Name(self,name):
+    def Name(self, name):
         self._Name = name
 
     @property
@@ -64,32 +75,45 @@ class IDataSet:
         """
         return self._DSID
 
+    @abstractmethod
     def setDataSource(self, pSource):
         if self._pSource != None:
-            del self._pSource           #may be wrong
+            del self._pSource  # TODO may be wrong
             self._pSource = None
         self._pSource = pSource
 
+    @property
+    def DataSetType(self):
+        return self._DataSetType
+
+
+
+    @abstractmethod
     def getDataSource(self):
         return self._pSource
 
+    @abstractmethod
     def ReadData(self):
-        if self._pSource == None:return False
+        if self._pSource == None: return False
         if not self._pSource.isOpened():
             self._pSource.Open()
         if not self._pSource.isOpened():
             return False
-        #Todo in subclass
+        # Todo in subclass
         return True
 
+    @abstractmethod
     def Destroy(self):
-        if self._pSource != None:
-            del self._pSource           #may be wrong
+        if self._pSource is not None:
+            del self._pSource  # TODO may be wrong
             self._pSource = None
 
+    @abstractmethod
     def Register(self):
         return None
 
 
-#Todo
-#typedef IDataSet *DataSetPtr_t;
+        # Todo
+        #typedef IDataSet *DataSetPtr_t;
+
+

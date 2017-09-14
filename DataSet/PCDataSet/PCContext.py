@@ -7,8 +7,7 @@ __author__ = 'zhangxun'
 from Sptial.SptialIndex import SptialIndex
 
 
-
-
+PCCXTOBJ = PCContext().instances()
 
 class PCContext(object):
     def __init__(self):
@@ -25,9 +24,8 @@ class PCContext(object):
 
     def instances(self):
         if self._Inst is None:
-            return PCContext()
-        else:
-            return self._Inst
+            self._Inst =  PCContext()
+        return self._Inst
 
     def Sptial(self):
         return self._SptailIndex

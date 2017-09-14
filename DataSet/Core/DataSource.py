@@ -7,6 +7,7 @@ class IDataSource:
     def __init__(self):
         self._url = ""
         self.opened_ = False
+        #Todo
         # friend class IDataSet
         # friend class IDataSetFactory
 

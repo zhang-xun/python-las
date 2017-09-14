@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 # _*_ coding:utf-8  _*_
 __author__ = 'zhangxun'
-
+"""
+    定义Block， 该类实现点云的八叉树索引， 对象在Segment中构建
+    由owner管理生命周期
+"""
 
 def BlockKey3D(x,y,z):
     pass

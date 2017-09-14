@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 # _*_ coding:utf-8  _*_
 __author__ = 'zhangxun'
-
+import ctypes
+import  laspy   # TODO
+import  numpy as np # TODO
 
 class Point_t:
     def __init__(self):
-        self._xyz = [0]*3   # 偏移后的局部坐标
+        self._xyz = ctypes.py_object * 3   # 偏移后的局部坐标
         self._rgbi = 0   # 颜色与强度值
         self._Time = 0   # 采集该点的GPS时间，ms
         self._Angle = 0  # 扫描角度
@@ -21,30 +23,36 @@ class Point_t:
         self._Class = 0  # 分类
         self._FID = 0  # 要素ID，0：未分类，非0：Feature ID
         self._ProfileDist = 0  # 侧方向距离，单位cm，abs(平台坐标系中的X值)
-        self._GroundHeight = 0  # 地面高，单位cm，平台坐标系中的Z值+IMU的地面高
+        self._GroundHeight = 0  # 地面高，单位cm，平台坐标系中的Z值+IMU的地面高 short
         self._LinePre = 0  # 行间前一个点的偏移，PrePtr  = PtPtr - LinePre,
         self._LineNext = 0  # 行间后一个点的偏移，NextPtr = PtPtr + LineNext
-        self.X_Offset = 0  # 点云坐标全局偏移
-        self.Y_Offset = 0  # 点云坐标全局偏移
-        self.Z_Offset = 0  # 点云坐标全局偏移
+        self.X_Offset = 0.0  # 点云坐标全局偏移
+        self.Y_Offset = 0.0  # 点云坐标全局偏移
+        self.Z_Offset = 0.0  # 点云坐标全局偏移
 
-    def X(self, x=None):
-        if x is None:
-            return self.X_Offset + self._xyz[0]
-        else:
-            self._xyz[0] = x - self.X_Offset
+    @property
+    def X(self):
+        return self.X_Offset + self._xyz[0]
 
+    @X.setter
+    def X(self, x:float)  -> float:
+        self._xyz[0] = x - self.X_Offset
+
+    @property
     def Y(self, y=None):
-        if y is None:
-            return self.Y_Offset + self._xyz[1]
-        else:
-            self._xyz[1] = y - self.Y_Offset
+        return self.Y_Offset + self._xyz[1]
 
+    @Y.setter
+    def Y(self, y=None):
+        self._xyz[1] = y - self.Y_Offset
+
+    @property
     def Z(self, z=None):
-        if z is None:
-            return self.Z_Offset + self._xyz[2]
-        else:
-            self._xyz[2] = z - self.Z_Offset
+        return self.Z_Offset + self._xyz[2]
+
+    @Z.setter
+    def Z(self, z=None):
+        self._xyz[2] = z - self.Z_Offset
 
     def XYZ(self,x,y,z):
         self._xyz[0] = x - self.X_Offset
@@ -167,9 +175,17 @@ class Point_t:
 #typedef std::vector<PointPtr_t> PointPtrArray_t; // 点云指针数组
 #typedef std::vector<Point_t>	PointArray_t;
 
+
+def CompPointbyZ(a, b):
+    return a.z() < b.z()
+
+
+#点属性过滤实验
+# Todo
+#raise NotImplementedError
 class AttriHeightStrist:
     def __init__(self):
-        pass
+        self.ValType = 0.0
 
 
 

@@ -3,13 +3,16 @@
 __author__ = 'zhangxun'
 from DataSet.Core.DataSet import IDataSet
 from Utility.Common import GPSTmSpan
+from DataSet.PCDataSet.PCContext import  PCContext
+from DataSet.PCDataSet.PCMeta import  PCMeta
+from DataSet.PCDataSet.PCDataSource import PCDataSource
 
 class PCDataSet(IDataSet):
     _Register = None
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
-        self._pContext = None
+        self._pContext = PCContext()
         self._PMeta = None
         self._Segments = None
         self._SupportTopo = False
@@ -21,13 +24,27 @@ class PCDataSet(IDataSet):
         self._LastPoint = None
 
     def setDataSource(self, pSource):
-        pass
+        super().setDataSource(pSource)
 
     def getDataSource(self):
-        pass
+        return self._pSource
 
     def ReadData(self):
-        return super().ReadData()
+        pPCSource = PCDataSource(self._pSource)
+        if pPCSource is None:return False
+        if (not pPCSource.isOpened()):
+            pPCSource.Open()
+        if not pPCSource.isOpened():return False
+        # Topo are the configure file of las file
+        # same name but different suffix
+        self._SupportTopo = pPCSource.openTop()
+        if(self._PMeta is None):
+            self._PMeta = PCMeta()
+        pPCSource.ReadMetaInfo(self._PMeta)
+
+        self._FirstPoint = pPCSource.FirstPoint()
+        self._LastPoint = pPCSource.LastPoint()
+        self._tmSpan = pPCSource.TimeSpan()
 
     def Destroy(self):
         super().Destroy()
@@ -87,3 +104,5 @@ class PCDataSet(IDataSet):
 
 
 
+if __name__ == "__main__":
+    t = PCDataSet()
